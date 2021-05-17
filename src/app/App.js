@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Home from '../home/Home';
+import AuthPage from '../auth/AuthPage';
 import {
   BrowserRouter as Router,
   Route,
@@ -26,9 +27,9 @@ class App extends Component {
                 )}
               />
 
-              <Route path="/resources" exact={true}
+              <Route path="/auth" exact={true}
                 render={routerProps => (
-                  <div>Implement a page of resources</div>
+                  <AuthPage {...routerProps} onUser={this.handleUser}/>
                 )}
               />
 
