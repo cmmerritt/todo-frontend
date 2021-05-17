@@ -25,3 +25,18 @@ export async function signIn(credentials) {
 
   return response.body;
 }
+
+export async function addTask(task) {
+  const response = await request 
+    .post('/api/todos')
+    .set('Authorization', window.localStorage.getItem('TOKEN'))
+    .send(task);
+  return response.body;
+}
+
+export async function getTodos() {
+  const response = await request
+    .get('/api/me/todos')
+    .set('Authorization', window.localStorage.getItem('TOKEN'));
+  return response.body;
+}

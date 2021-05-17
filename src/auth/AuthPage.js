@@ -17,7 +17,7 @@ export default class AuthPage extends Component {
 
   handleSubmit = async e => {
     const { isSignUp } = this.state;
-    const { onUser } = this.props;
+    const { onUser, history } = this.props;
  
     e.preventDefault();
 
@@ -31,12 +31,11 @@ export default class AuthPage extends Component {
 
       onUser(user);
 
-      // history.push('/');
+      history.push('/');
     }
     catch (err) {
       this.setState({ error: err.message });
     } 
-
   }
 
   handleNameChange = ({ target }) => {
