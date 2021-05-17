@@ -1,5 +1,5 @@
 import { Component } from 'react';
-// import { signUp, signIn } from '../utils.api.js';
+import { signUp, signIn } from '../utils/todo-api.js';
 import './AuthPage.css';
 
 export default class AuthPage extends Component {
@@ -16,26 +16,26 @@ export default class AuthPage extends Component {
   }
 
   handleSubmit = async e => {
-/*     const { isSignUp } = this.state;
-    const { onUser, history } = this.props;
- */
+    const { isSignUp } = this.state;
+    const { onUser } = this.props;
+ 
     e.preventDefault();
 
     this.setState({ error: '' });
 
     console.log(this.state);
 
-/*     try {
+    try {
       const action = isSignUp ? signUp : signIn;
       const user = await action(this.state);
 
       onUser(user);
 
-      history.push('/');
+      // history.push('/');
     }
     catch (err) {
-      this.setState({ error: err.error });
-    } */
+      this.setState({ error: err.message });
+    } 
 
   }
 

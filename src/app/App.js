@@ -13,6 +13,15 @@ import './App.css';
 
 class App extends Component {
 
+  state = {
+    token: window.localStorage.getItem('TOKEN')
+  }
+
+  handleUser = user => {
+    window.localStorage.setItem('TOKEN', user.token);
+    this.setState({ token: user.token });
+  }
+
   render() {
     return (
       <div className="App">
