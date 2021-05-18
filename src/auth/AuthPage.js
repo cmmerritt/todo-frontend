@@ -23,7 +23,7 @@ export default class AuthPage extends Component {
 
     this.setState({ error: '' });
 
-    console.log(this.state);
+    console.log(this.props.history);
 
     try {
       const action = isSignUp ? signUp : signIn;
@@ -31,7 +31,7 @@ export default class AuthPage extends Component {
 
       onUser(user);
 
-      history.push('/');
+      history.push('/todo-list');
     }
     catch (err) {
       this.setState({ error: err.message });
