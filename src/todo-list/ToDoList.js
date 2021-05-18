@@ -3,10 +3,10 @@ import { addTask, getTodos, deleteTodo, completeTask } from '../utils/todo-api.j
 import './ToDoList.css';
 
 export default class ToDoList extends Component {
+  //state is like local storage in react! it is local to this component.
   state = {
-    //completed?
     task: '',
-    todos: []
+    todos: []  
   }
   
   async componentDidMount() {
@@ -52,17 +52,20 @@ export default class ToDoList extends Component {
     }
   }
 
-  handleComplete = async id => {
+  handleComplete = async task => {
     const { todos } = this.state;
 
     try {
-      const updatedTodo = await completeTask(id);
+      //we are making our put request here and sending it completed: true
+      const updatedTodo = await completeTask(task, { completed: true });
+      //updatedTodo is the response that we are getting from the fetch
 
-      //change complete from false to true if clicked
-      const updatedTodos = todos.map(todo => todo.id === id ? updatedTodo : todo);
-
-
+      //updatedTodo is used to set state, we are changing todos to updatedTodos
+      //mapping through current todos (before updating)in state, checking to see if the unupdated todo matches a todo that we just updated by checking ids, and if they are then we want our updatedTodo to replace the original todo. 
+      const updatedTodos = todos.map(todo => todo.id === task.id ? updatedTodo : todo);
       this.setState({ todos: updatedTodos });
+      // } else {return this.setState({ todos: todos, completed: false });}
+
     }
 
     catch (err) {
@@ -77,7 +80,6 @@ export default class ToDoList extends Component {
 
   render() {
     const { task, todos } = this.state;
-    console.log(todos);
     return (
       <div className="ToDoList">
         <form onSubmit={this.handleAdd}>
@@ -85,10 +87,11 @@ export default class ToDoList extends Component {
         </form>
 
         <ul>
+          {/* mapping through each item in todos array (task), render each item */}
           {todos.map(task => (
             <li key={task.id}>
-              <h2>{task.task}</h2>
-              <button className="completed" onClick={() => this.handleComplete(task.id)}>Completed</button>
+              <h2 style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>{task.task}</h2>
+              <button className="completed" onClick={() => this.handleComplete(task) }>Completed</button>
               <button className="delete" onClick={() => this.handleDelete(task.id)}>X</button>
             </li>
           ))}

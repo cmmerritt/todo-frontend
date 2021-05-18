@@ -49,10 +49,13 @@ export async function deleteTodo(id) {
   return response.body;
 }
 
-export async function completeTask(id) {
+export async function completeTask(task, completed) {
   const response = await request
-    .put(`/api/todos/${id}/completed`)
+    .put(`/api/todos/${task.id}/completed`)
+    //must send a body
+    .send(completed)
     .set('Authorization', window.localStorage.getItem('TOKEN'));
+    
 
   return response.body;
 }
