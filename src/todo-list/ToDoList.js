@@ -1,15 +1,17 @@
 import { Component } from 'react';
-import { addTask, getTodos } from '../utils/todo-api.js';
+import { addTask, getTodos, deleteTodo, completeTask } from '../utils/todo-api.js';
 import './ToDoList.css';
 
 export default class ToDoList extends Component {
   state = {
+    //completed?
     task: '',
     todos: []
   }
   
   async componentDidMount() {
     try {
+
       const todos = await getTodos();
       this.setState({ todos: todos });
     }
@@ -35,9 +37,43 @@ export default class ToDoList extends Component {
     }
   }
 
+  handleDelete = async id => {
+    const { todos } = this.state;
+
+    try {
+      await deleteTodo(id);
+
+      const updatedTasks = todos.filter(todo => todo.id !== id);
+      this.setState({ todos: updatedTasks });
+    }
+
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  handleComplete = async id => {
+    const { todos } = this.state;
+
+    try {
+      const updatedTodo = await completeTask(id);
+
+      //change complete from false to true if clicked
+      const updatedTodos = todos.map(todo => todo.id === id ? updatedTodo : todo);
+
+
+      this.setState({ todos: updatedTodos });
+    }
+
+    catch (err) {
+      console.log(err);
+    }
+  }  
+
   handleTaskChange = ({ target }) => {
     this.setState({ task: target.value });
   }
+
 
   render() {
     const { task, todos } = this.state;
@@ -52,6 +88,8 @@ export default class ToDoList extends Component {
           {todos.map(task => (
             <li key={task.id}>
               <h2>{task.task}</h2>
+              <button className="completed" onClick={() => this.handleComplete(task.id)}>Completed</button>
+              <button className="delete" onClick={() => this.handleDelete(task.id)}>X</button>
             </li>
           ))}
         </ul>

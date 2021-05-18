@@ -40,3 +40,19 @@ export async function getTodos() {
     .set('Authorization', window.localStorage.getItem('TOKEN'));
   return response.body;
 }
+
+export async function deleteTodo(id) {
+  const response = await request
+    .delete(`/api/todos/${id}`)
+    .set('Authorization', window.localStorage.getItem('TOKEN'));
+
+  return response.body;
+}
+
+export async function completeTask(id) {
+  const response = await request
+    .put(`/api/todos/${id}/completed`)
+    .set('Authorization', window.localStorage.getItem('TOKEN'));
+
+  return response.body;
+}
